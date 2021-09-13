@@ -377,8 +377,12 @@ namespace Xamarin.Forms.Platform.Android
 		{
 			if (_contentView != null)
 			{
-				_contentView.RemoveFromParent();
-				_contentView.Dispose();
+				if (!_contentView.IsDisposed())
+				{
+					_contentView.RemoveFromParent();
+					_contentView.Dispose();
+				}
+
 				_contentView = null;
 			}
 
@@ -387,6 +391,7 @@ namespace Xamarin.Forms.Platform.Android
 			else
 				_contentView = CreateContent();
 
+			_contentView.RemoveFromParent();
 			AddView(_contentView);
 
 			UpdateBackgroundColor();
